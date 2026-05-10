@@ -43,6 +43,7 @@ const plants = [
 const gardenGrid = document.querySelector("#gardenGrid");
 const pot = document.querySelector("#pot");
 const potCount = document.querySelector("#potCount");
+const potHint = document.querySelector("#potHint");
 const startButton = document.querySelector("#startButton");
 const bookCover = document.querySelector("#bookCover");
 const recipePage = document.querySelector("#recipePage");
@@ -56,6 +57,7 @@ const nextButton = document.querySelector("#nextButton");
 const lessonModal = document.querySelector("#lessonModal");
 const closeLesson = document.querySelector("#closeLesson");
 const continueButton = document.querySelector("#continueButton");
+const closeFinal = document.querySelector("#closeFinal");
 const lessonTitle = document.querySelector("#lessonTitle");
 const lessonText = document.querySelector("#lessonText");
 const mealImage = document.querySelector("#mealImage");
@@ -63,6 +65,7 @@ const finalModal = document.querySelector("#finalModal");
 
 let currentRecipe = 0;
 let started = false;
+let hintTimer;
 const completedRecipes = new Set();
 const gatheredByRecipe = recipes.map(() => new Set());
 
@@ -81,20 +84,22 @@ function renderGarden() {
     const plantButton = document.createElement("button");
     plantButton.className = "plant";
     plantButton.type = "button";
-    plantButton.draggable = started && isNeeded && !isUsed;
+    plantButton.draggable = started && !isUsed;
     plantButton.dataset.ingredient = plant.name;
     plantButton.setAttribute("aria-label", `${plant.name} plant`);
 
-    if (!started || !isNeeded) plantButton.classList.add("locked");
+    if (!started) plantButton.classList.add("locked");
+    if (started && isNeeded && !isUsed) plantButton.classList.add("needed");
     if (isUsed) plantButton.classList.add("used");
 
     plantButton.innerHTML = `
+      <span class="plant-stem" aria-hidden="true"></span>
       <span class="plant-art" aria-hidden="true">${plant.art}</span>
       <span class="plant-name">${plant.name}</span>
     `;
 
     plantButton.addEventListener("dragstart", (event) => {
-      if (!isNeeded || isUsed) {
+      if (!started || isUsed) {
         event.preventDefault();
         return;
       }
@@ -116,6 +121,7 @@ function renderRecipe() {
   recipeProgress.textContent = `Recipe ${currentRecipe + 1} of ${recipes.length}`;
   recipeStatus.textContent = complete ? "Complete" : "Gathering";
   potCount.textContent = `${gathered.size} / ${activeRecipe.ingredients.length}`;
+  potHint.textContent = complete ? "Recipe complete" : "Drop recipe ingredients here";
   pot.classList.toggle("ready", complete);
 
   ingredientList.innerHTML = "";
@@ -137,7 +143,12 @@ function addIngredient(ingredient) {
 
   const activeRecipe = recipe();
   const gathered = gatheredByRecipe[currentRecipe];
-  if (!activeRecipe.ingredients.includes(ingredient) || gathered.has(ingredient)) return;
+  if (gathered.has(ingredient)) return;
+
+  if (!activeRecipe.ingredients.includes(ingredient)) {
+    showPotHint(`${ingredient} is beautiful, but not for this recipe.`);
+    return;
+  }
 
   gathered.add(ingredient);
   renderRecipe();
@@ -146,6 +157,16 @@ function addIngredient(ingredient) {
     completedRecipes.add(currentRecipe);
     setTimeout(showLesson, 260);
   }
+}
+
+function showPotHint(message) {
+  window.clearTimeout(hintTimer);
+  potHint.textContent = message;
+  pot.classList.add("try-again");
+  hintTimer = window.setTimeout(() => {
+    pot.classList.remove("try-again");
+    potHint.textContent = "Drop recipe ingredients here";
+  }, 1600);
 }
 
 function showLesson() {
@@ -201,9 +222,13 @@ nextButton.addEventListener("click", () => {
 
 closeLesson.addEventListener("click", closeLessonModal);
 continueButton.addEventListener("click", closeLessonModal);
+closeFinal.addEventListener("click", () => {
+  finalModal.hidden = true;
+});
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !lessonModal.hidden) closeLessonModal();
+  if (event.key === "Escape" && !finalModal.hidden) finalModal.hidden = true;
 });
 
 renderGarden();
