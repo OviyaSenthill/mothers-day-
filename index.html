@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Garden for Mama</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="garden-scene" aria-label="Interactive recipe garden">
+        <div class="sun" aria-hidden="true"></div>
+        <div class="cloud cloud-one" aria-hidden="true"></div>
+        <div class="cloud cloud-two" aria-hidden="true"></div>
+
+        <div class="intro">
+          <p class="eyebrow">From your garden to my heart</p>
+          <h1>Recipe Garden</h1>
+          <p>
+            Pick the ingredients from the garden, stir them into the pot, and
+            open each recipe to reveal a memory and a lesson from Mama.
+          </p>
+          <button class="primary-action" id="startButton">Open the cookbook</button>
+        </div>
+
+        <div class="garden-grid" id="gardenGrid" aria-label="Garden ingredients"></div>
+
+        <div
+          class="cooking-pot"
+          id="pot"
+          tabindex="0"
+          role="region"
+          aria-label="Cooking pot drop zone"
+        >
+          <div class="pot-steam steam-a" aria-hidden="true"></div>
+          <div class="pot-steam steam-b" aria-hidden="true"></div>
+          <div class="pot-rim"></div>
+          <div class="pot-body">
+            <span id="potCount">0 / 0</span>
+          </div>
+          <p>Drop recipe ingredients here</p>
+        </div>
+      </section>
+
+      <aside class="cookbook-panel" id="cookbookPanel" aria-label="Cookbook">
+        <div class="book-cover" id="bookCover">
+          <p class="eyebrow">Mama's Cookbook</p>
+          <h2>Garden Recipes</h2>
+          <p>Complete each recipe to turn the page.</p>
+        </div>
+
+        <div class="recipe-page" id="recipePage" hidden>
+          <div class="page-topline">
+            <span id="recipeProgress">Recipe 1 of 3</span>
+            <span id="recipeStatus">Gathering</span>
+          </div>
+          <h2 id="recipeTitle"></h2>
+          <p id="recipeNote"></p>
+          <div class="ingredient-list" id="ingredientList"></div>
+          <div class="page-actions">
+            <button class="icon-button" id="prevButton" aria-label="Previous recipe">
+              <span aria-hidden="true">←</span>
+            </button>
+            <button class="icon-button" id="nextButton" aria-label="Next recipe">
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <div class="modal-backdrop" id="lessonModal" hidden>
+      <article class="memory-card" role="dialog" aria-modal="true" aria-labelledby="lessonTitle">
+        <button class="close-button" id="closeLesson" aria-label="Close recipe memory">×</button>
+        <div class="meal-photo" id="mealPhoto" aria-hidden="true"></div>
+        <p class="eyebrow">Recipe complete</p>
+        <h2 id="lessonTitle"></h2>
+        <p id="lessonText"></p>
+        <button class="primary-action" id="continueButton">Keep cooking</button>
+      </article>
+    </div>
+
+    <div class="modal-backdrop celebration" id="finalModal" hidden>
+      <article class="memory-card final-card" role="dialog" aria-modal="true" aria-labelledby="finalTitle">
+        <div class="bouquet" aria-hidden="true">✿</div>
+        <p class="eyebrow">All recipes made with love</p>
+        <h2 id="finalTitle">Thank you for everything you do, Mama.</h2>
+        <p>
+          Your love is in every meal, every garden lesson, every patient
+          reminder, and every home you make warmer just by being in it.
+        </p>
+      </article>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

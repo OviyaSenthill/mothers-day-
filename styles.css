@@ -1,0 +1,524 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --soil: #6e4229;
+  --soil-dark: #4b2b1c;
+  --leaf: #3c8b5c;
+  --leaf-dark: #1f6645;
+  --tomato: #d54d3f;
+  --cream: #fff8e8;
+  --paper: #fffdf4;
+  --ink: #32261e;
+  --muted: #76695f;
+  --sky: #bfe5ef;
+  --gold: #efb64c;
+  --rose: #cc6d73;
+  --shadow: 0 24px 60px rgba(61, 43, 28, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, #cdeef4 0%, #eaf7ed 48%, #d4e7b5 100%);
+  color: var(--ink);
+}
+
+button {
+  border: 0;
+  font: inherit;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(340px, 0.7fr);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.garden-scene {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  padding: clamp(24px, 4vw, 56px);
+  isolation: isolate;
+}
+
+.garden-scene::before {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 44%;
+  content: "";
+  background:
+    radial-gradient(circle at 20% 35%, rgba(255, 255, 255, 0.24) 0 9%, transparent 10%),
+    linear-gradient(180deg, #87bd67 0%, #689947 100%);
+  border-top: 5px solid rgba(55, 110, 50, 0.3);
+}
+
+.sun {
+  position: absolute;
+  top: 42px;
+  right: 36%;
+  width: 84px;
+  aspect-ratio: 1;
+  background: #ffd66d;
+  border-radius: 50%;
+  box-shadow: 0 0 0 16px rgba(255, 214, 109, 0.24);
+}
+
+.cloud {
+  position: absolute;
+  width: 124px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+}
+
+.cloud::before,
+.cloud::after {
+  position: absolute;
+  content: "";
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  left: 22px;
+  top: -22px;
+  width: 52px;
+  height: 52px;
+}
+
+.cloud::after {
+  right: 18px;
+  top: -14px;
+  width: 42px;
+  height: 42px;
+}
+
+.cloud-one {
+  top: 88px;
+  left: 10%;
+}
+
+.cloud-two {
+  top: 150px;
+  right: 16%;
+  transform: scale(0.72);
+  opacity: 0.72;
+}
+
+.intro {
+  max-width: 620px;
+  margin-top: 34px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--leaf-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3rem, 8vw, 6.6rem);
+  line-height: 0.92;
+}
+
+.intro p:not(.eyebrow) {
+  max-width: 540px;
+  color: #4c4a38;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.55;
+}
+
+.primary-action {
+  min-height: 46px;
+  padding: 0 18px;
+  color: #fffdf4;
+  background: var(--leaf-dark);
+  border-radius: 999px;
+  box-shadow: 0 12px 26px rgba(35, 79, 54, 0.22);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.primary-action:hover {
+  background: #174e35;
+}
+
+.garden-grid {
+  align-self: end;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 16px;
+  width: min(720px, 100%);
+  margin: 42px 0 24px;
+}
+
+.plant {
+  position: relative;
+  min-height: 132px;
+  padding: 14px 12px 12px;
+  background: rgba(255, 248, 232, 0.66);
+  border: 2px solid rgba(71, 111, 55, 0.18);
+  border-radius: 8px;
+  cursor: grab;
+  text-align: center;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.plant::after {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  left: 12px;
+  height: 18px;
+  content: "";
+  background: linear-gradient(180deg, var(--soil) 0%, var(--soil-dark) 100%);
+  border-radius: 50%;
+}
+
+.plant[draggable="false"] {
+  cursor: default;
+}
+
+.plant:hover,
+.plant:focus-visible {
+  outline: none;
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(67, 80, 42, 0.16);
+}
+
+.plant.used {
+  opacity: 0.28;
+  transform: scale(0.96);
+}
+
+.plant.locked {
+  opacity: 0.44;
+  filter: grayscale(0.6);
+}
+
+.plant-art {
+  display: grid;
+  place-items: center;
+  height: 70px;
+  font-size: 2.8rem;
+}
+
+.plant-name {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: var(--soil-dark);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.cooking-pot {
+  justify-self: end;
+  position: relative;
+  width: min(310px, 100%);
+  min-height: 190px;
+  padding-top: 46px;
+  text-align: center;
+}
+
+.pot-steam {
+  position: absolute;
+  bottom: 122px;
+  width: 18px;
+  height: 48px;
+  border-left: 4px solid rgba(255, 255, 255, 0.84);
+  border-radius: 50%;
+  animation: steam 2.5s ease-in-out infinite;
+}
+
+.steam-a {
+  left: 120px;
+}
+
+.steam-b {
+  left: 172px;
+  animation-delay: 0.45s;
+}
+
+.pot-rim {
+  width: 230px;
+  height: 44px;
+  margin: 0 auto -16px;
+  background: #485360;
+  border: 8px solid #303841;
+  border-radius: 50%;
+}
+
+.pot-body {
+  display: grid;
+  place-items: center;
+  width: 206px;
+  height: 116px;
+  margin: 0 auto;
+  color: #fff;
+  background: linear-gradient(135deg, #47515c, #242b34);
+  border-radius: 0 0 62px 62px;
+  box-shadow: var(--shadow);
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
+.cooking-pot p {
+  margin-top: 12px;
+  color: #fff8e8;
+  font-weight: 800;
+  text-shadow: 0 1px 5px rgba(38, 54, 30, 0.35);
+}
+
+.cooking-pot.ready .pot-rim {
+  box-shadow: 0 0 0 8px rgba(255, 248, 232, 0.34);
+}
+
+.cookbook-panel {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 28px;
+  background:
+    linear-gradient(90deg, rgba(72, 49, 35, 0.2), transparent 12%),
+    linear-gradient(180deg, #b95e5a, #834846);
+  box-shadow: -24px 0 60px rgba(78, 42, 31, 0.18);
+}
+
+.book-cover,
+.recipe-page {
+  width: min(430px, 100%);
+  min-height: 560px;
+  padding: clamp(26px, 5vw, 42px);
+  background:
+    linear-gradient(90deg, rgba(70, 39, 24, 0.09), transparent 12%),
+    var(--paper);
+  border: 1px solid rgba(78, 42, 31, 0.18);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.book-cover {
+  display: grid;
+  align-content: center;
+  text-align: center;
+}
+
+.book-cover h2,
+.recipe-page h2,
+.memory-card h2 {
+  margin-bottom: 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1;
+}
+
+.book-cover p:not(.eyebrow),
+.recipe-page p,
+.memory-card p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.page-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  color: var(--rose);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.ingredient-list {
+  display: grid;
+  gap: 10px;
+  margin: 28px 0;
+}
+
+.ingredient-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+  padding: 0 14px;
+  color: var(--soil-dark);
+  background: #f5ead1;
+  border: 1px solid #ead8b5;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.ingredient-pill.done {
+  color: #fffdf4;
+  background: var(--leaf);
+  border-color: var(--leaf);
+}
+
+.page-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.icon-button,
+.close-button {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  color: #fffdf4;
+  background: var(--soil-dark);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(40, 31, 24, 0.5);
+}
+
+.memory-card {
+  position: relative;
+  width: min(540px, 100%);
+  padding: 26px;
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.close-button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  background: rgba(50, 38, 30, 0.78);
+}
+
+.meal-photo {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--meal-art);
+  border: 8px solid #fff6df;
+}
+
+.final-card {
+  text-align: center;
+}
+
+.bouquet {
+  display: grid;
+  place-items: center;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 18px;
+  color: #fffdf4;
+  background: var(--rose);
+  border-radius: 50%;
+  font-size: 3rem;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@keyframes steam {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(12px) scale(0.9);
+  }
+
+  45% {
+    opacity: 0.9;
+    transform: translateY(-14px) scale(1.1);
+  }
+}
+
+@media (max-width: 940px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .garden-scene,
+  .cookbook-panel {
+    min-height: auto;
+  }
+
+  .garden-grid {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .cooking-pot {
+    justify-self: center;
+  }
+
+  .book-cover,
+  .recipe-page {
+    min-height: 460px;
+  }
+}
+
+@media (max-width: 520px) {
+  .garden-scene {
+    padding: 22px;
+  }
+
+  .garden-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .plant {
+    min-height: 112px;
+  }
+
+  .plant-art {
+    height: 56px;
+    font-size: 2.2rem;
+  }
+}
