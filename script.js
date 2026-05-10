@@ -19,7 +19,7 @@ const recipes = [
   },
   {
     title: "Gulab Jamun Celebration",
-    note: "A sweet Indian ending, warm and golden, for every bit of love Mama has poured into me.",
+    note: "A sweet ending, warm and golden, for every bit of love Mama has poured into me.",
     ingredients: ["Rose", "Cardamom", "Sugar"],
     lesson:
       "Thank you for teaching me to be adventurous and free. Like gulab jamun, you make life sweeter, warmer, and full of celebration.",
@@ -29,15 +29,15 @@ const recipes = [
 ];
 
 const plants = [
+  { name: "Cardamom", art: "🌿" },
   { name: "Tomatoes", art: "🍅" },
-  { name: "Basil", art: "🌿" },
-  { name: "Garlic", art: "🧄" },
-  { name: "Carrots", art: "🥕" },
-  { name: "Thyme", art: "🌱" },
   { name: "Onion", art: "🧅" },
   { name: "Rose", art: "🌹" },
-  { name: "Cardamom", art: "🌿" },
+  { name: "Basil", art: "🌿" },
   { name: "Sugar", art: "🍬" },
+  { name: "Carrots", art: "🥕" },
+  { name: "Garlic", art: "🧄" },
+  { name: "Thyme", art: "🌱" },
 ];
 
 const gardenGrid = document.querySelector("#gardenGrid");
@@ -86,8 +86,8 @@ function renderGarden() {
     plantButton.type = "button";
     plantButton.draggable = started && !isUsed;
     plantButton.dataset.ingredient = plant.name;
-    plantButton.style.setProperty("--plant-offset", `${[10, -8, 18, -2, 14, -12, 8, -16, 16][index]}px`);
-    plantButton.style.setProperty("--stem-height", `${[86, 70, 92, 76, 84, 68, 94, 72, 80][index]}px`);
+    plantButton.style.setProperty("--plant-offset", `${[-18, 8, -4, 20, -10, 12, -16, 18, 0][index]}px`);
+    plantButton.style.setProperty("--stem-height", `${[72, 88, 70, 96, 78, 82, 74, 92, 84][index]}px`);
     plantButton.setAttribute("aria-label", `${plant.name} plant`);
 
     if (!started) plantButton.classList.add("locked");

@@ -298,8 +298,13 @@ h1 {
 .plant-name {
   position: relative;
   z-index: 1;
-  display: block;
+  display: inline-block;
+  max-width: 100%;
+  padding: 3px 5px;
   color: var(--soil-dark);
+  background: rgba(255, 248, 232, 0.78);
+  border: 1px solid rgba(91, 62, 37, 0.12);
+  border-radius: 999px;
   font-size: 0.68rem;
   font-weight: 800;
   line-height: 1.15;
