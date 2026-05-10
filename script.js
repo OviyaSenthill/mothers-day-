@@ -18,11 +18,11 @@ const recipes = [
     photoAlt: "Mama and me hugging by a decorated Christmas tree.",
   },
   {
-    title: "Strawberry Mint Shortcake",
-    note: "A sweet finish for every hug, laugh, and story that made home feel like home.",
-    ingredients: ["Strawberries", "Mint", "Honey"],
+    title: "Gulab Jamun Celebration",
+    note: "A sweet Indian ending, warm and golden, for every bit of love Mama has poured into me.",
+    ingredients: ["Rose", "Cardamom", "Sugar"],
     lesson:
-      "Thank you for teaching me to be adventurous and free. You made the world feel big, beautiful, and possible, and you taught me to meet it with courage.",
+      "Thank you for teaching me to be adventurous and free. Like gulab jamun, you make life sweeter, warmer, and full of celebration.",
     photo: "assets/adventurous-free.jpg",
     photoAlt: "Mama and me smiling together on a hike.",
   },
@@ -35,9 +35,9 @@ const plants = [
   { name: "Carrots", art: "🥕" },
   { name: "Thyme", art: "🌱" },
   { name: "Onion", art: "🧅" },
-  { name: "Strawberries", art: "🍓" },
-  { name: "Mint", art: "🍃" },
-  { name: "Honey", art: "🍯" },
+  { name: "Rose", art: "🌹" },
+  { name: "Cardamom", art: "🌿" },
+  { name: "Sugar", art: "🍬" },
 ];
 
 const gardenGrid = document.querySelector("#gardenGrid");
@@ -78,7 +78,7 @@ function renderGarden() {
   const needed = new Set(recipe().ingredients);
   const gathered = gatheredByRecipe[currentRecipe];
 
-  plants.forEach((plant) => {
+  plants.forEach((plant, index) => {
     const isNeeded = needed.has(plant.name);
     const isUsed = gathered.has(plant.name);
     const plantButton = document.createElement("button");
@@ -86,6 +86,8 @@ function renderGarden() {
     plantButton.type = "button";
     plantButton.draggable = started && !isUsed;
     plantButton.dataset.ingredient = plant.name;
+    plantButton.style.setProperty("--plant-offset", `${[10, -8, 18, -2, 14, -12, 8, -16, 16][index]}px`);
+    plantButton.style.setProperty("--stem-height", `${[86, 70, 92, 76, 84, 68, 94, 72, 80][index]}px`);
     plantButton.setAttribute("aria-label", `${plant.name} plant`);
 
     if (!started) plantButton.classList.add("locked");
