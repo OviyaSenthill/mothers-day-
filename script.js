@@ -3,25 +3,28 @@ const recipes = [
     title: "Sunshine Tomato Basil Pasta",
     note: "A bright garden bowl for the days she makes simple food feel special.",
     ingredients: ["Tomatoes", "Basil", "Garlic"],
-    lesson: "You taught me that love does not need to be loud to be felt. Sometimes it is a warm plate, a clean counter, and someone asking if I have eaten.",
-    mealArt:
-      "radial-gradient(circle at 50% 55%, #f7d36d 0 18%, transparent 19%), radial-gradient(circle at 35% 48%, #d94f3f 0 9%, transparent 10%), radial-gradient(circle at 62% 42%, #d94f3f 0 8%, transparent 9%), radial-gradient(circle at 52% 70%, #3c8b5c 0 7%, transparent 8%), linear-gradient(135deg, #f9e4a6, #fff8e8 48%, #c6483c 49% 61%, #f4c04e 62%)",
+    lesson:
+      "Thank you for teaching me to be kind and empathetic. \"No act of kindness, no matter how small, is ever wasted.\" I am forever thankful for you teaching me this.",
+    photo: "assets/kind-empathy.jpg",
+    photoAlt: "Mama and me smiling by a mountain lake.",
   },
   {
     title: "Cozy Garden Soup",
     note: "A little pot of comfort with carrots, thyme, and all the patient care she gives.",
     ingredients: ["Carrots", "Thyme", "Onion"],
-    lesson: "You taught me patience: that good things soften with time, and that taking care of people is one of the strongest things a person can do.",
-    mealArt:
-      "radial-gradient(circle at 50% 54%, #d86f39 0 30%, transparent 31%), radial-gradient(circle at 42% 45%, #f2a65d 0 8%, transparent 9%), radial-gradient(circle at 58% 62%, #f7c177 0 7%, transparent 8%), radial-gradient(circle at 57% 42%, #6aa05c 0 5%, transparent 6%), linear-gradient(135deg, #fff8e8, #f4d6a1)",
+    lesson:
+      "Thank you for teaching me to push myself and grow. \"Growth begins where comfort ends.\" You have always shown me that I am capable of more than I think.",
+    photo: "assets/push-grow.jpg",
+    photoAlt: "Mama and me hugging by a decorated Christmas tree.",
   },
   {
     title: "Strawberry Mint Shortcake",
     note: "A sweet finish for every hug, laugh, and story that made home feel like home.",
     ingredients: ["Strawberries", "Mint", "Honey"],
-    lesson: "You taught me to notice the sweetness in ordinary days and to share it generously. That is one of the best gifts I could have learned.",
-    mealArt:
-      "radial-gradient(circle at 48% 52%, #fff5d9 0 22%, transparent 23%), radial-gradient(circle at 40% 40%, #d94452 0 8%, transparent 9%), radial-gradient(circle at 60% 46%, #d94452 0 8%, transparent 9%), radial-gradient(circle at 53% 66%, #58a06c 0 6%, transparent 7%), linear-gradient(135deg, #f8d7d8, #fff8e8 55%, #efb64c)",
+    lesson:
+      "Thank you for teaching me to be adventurous and free. You made the world feel big, beautiful, and possible, and you taught me to meet it with courage.",
+    photo: "assets/adventurous-free.jpg",
+    photoAlt: "Mama and me smiling together on a hike.",
   },
 ];
 
@@ -55,7 +58,7 @@ const closeLesson = document.querySelector("#closeLesson");
 const continueButton = document.querySelector("#continueButton");
 const lessonTitle = document.querySelector("#lessonTitle");
 const lessonText = document.querySelector("#lessonText");
-const mealPhoto = document.querySelector("#mealPhoto");
+const mealImage = document.querySelector("#mealImage");
 const finalModal = document.querySelector("#finalModal");
 
 let currentRecipe = 0;
@@ -149,7 +152,8 @@ function showLesson() {
   const activeRecipe = recipe();
   lessonTitle.textContent = activeRecipe.title;
   lessonText.textContent = activeRecipe.lesson;
-  mealPhoto.style.setProperty("--meal-art", activeRecipe.mealArt);
+  mealImage.src = activeRecipe.photo;
+  mealImage.alt = activeRecipe.photoAlt;
   lessonModal.hidden = false;
   continueButton.focus();
 }
